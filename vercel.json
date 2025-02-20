@@ -23,8 +23,5 @@
   "github": {
     "enabled": true,
     "silent": true
-  },
-  "buildCache": {
-    "disabled": true
   }
 } 
