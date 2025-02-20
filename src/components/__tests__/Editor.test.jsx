@@ -36,7 +36,6 @@ describe('Editor Component', () => {
       await fireEvent.click(copyButton)
     })
 
-    // Esperamos a que aparezca el mensaje
     const successMessage = await screen.findByText('¡Copiado!')
     expect(successMessage).toBeDefined()
   })
@@ -61,18 +60,18 @@ describe('Editor Component', () => {
     expect(italicButton.closest('button')).toHaveClass('bg-gray-200')
   })
 
-  it('toggles bullet list when list button is clicked', async () => {
+  it('handles list button click', async () => {
     const listButton = screen.getByTitle('Lista')
     
     await act(async () => {
       await fireEvent.click(listButton)
     })
     
-    expect(listButton).toBeInTheDocument()
+    // Verificar que el botón existe y tiene la clase correcta
+    expect(listButton.closest('button')).toHaveClass('bg-gray-200')
   })
 
   it('handles error when clipboard is not available', async () => {
-    // Simular que el clipboard no está disponible
     Object.defineProperty(navigator, 'clipboard', {
       value: undefined,
       writable: true,
