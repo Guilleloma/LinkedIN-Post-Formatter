@@ -99,18 +99,45 @@ const Editor = () => {
     },
   })
 
-  useEffect(() => {
-    if (editor) {
-      console.log('Editor: Montado y listo')
+  const formatForLinkedIn = (node) => {
+    if (!node || !node.content) return ''
+    
+    return node.content.map(item => {
+      let text = ''
       
-      // Añadir manejador de tecla Enter en listas
-      editor.on('keydown', (e) => {
-        if (e.key === 'Enter' && editor.isActive('bulletList')) {
-          console.log('Enter presionado dentro de una lista')
-        }
-      })
-    }
-  }, [editor])
+      // Procesar el contenido del nodo
+      if (item.content) {
+        text = formatForLinkedIn(item)
+      } else if (item.text) {
+        text = item.text
+      }
+      
+      // Aplicar marcas (negrita, cursiva)
+      if (item.marks) {
+        item.marks.forEach(mark => {
+          if (mark.type === 'bold') {
+            text = `**${text}**`
+          }
+          if (mark.type === 'italic') {
+            text = `_${text}_`
+          }
+        })
+      }
+      
+      // Manejar tipos específicos de nodos
+      if (item.type === 'bulletList') {
+        return '\n' + text.split('\n').map(line => `• ${line}`).join('\n')
+      }
+      if (item.type === 'listItem') {
+        return text + '\n'
+      }
+      if (item.type === 'paragraph') {
+        return text + '\n'
+      }
+      
+      return text
+    }).join('')
+  }
 
   const handleCopy = async () => {
     console.log('Iniciando proceso de copia')
@@ -121,35 +148,13 @@ const Editor = () => {
     }
 
     try {
-      // Obtener el contenido HTML y convertirlo a formato de LinkedIn
-      const content = editor.getHTML()
-      console.log('Contenido HTML original:', content)
-
-      let formattedText = content
+      const json = editor.getJSON()
+      console.log('Contenido JSON:', json)
       
-      // Log cada transformación
-      console.log('Aplicando transformaciones:')
-      
-      formattedText = formattedText.replace(/<strong>(.*?)<\/strong>/g, '**$1**')
-      console.log('Después de transformar negrita:', formattedText)
-      
-      formattedText = formattedText.replace(/<em>(.*?)<\/em>/g, '_$1_')
-      console.log('Después de transformar cursiva:', formattedText)
-      
-      formattedText = formattedText.replace(/<ul>/g, '\n')
-      console.log('Después de transformar apertura de lista:', formattedText)
-      
-      formattedText = formattedText.replace(/<li>(.*?)<\/li>/g, '• $1\n')
-      console.log('Después de transformar elementos de lista:', formattedText)
-      
-      formattedText = formattedText.replace(/<p>(.*?)<\/p>/g, '$1\n')
-      console.log('Después de transformar párrafos:', formattedText)
-      
-      formattedText = formattedText.replace(/&nbsp;/g, ' ')
-      console.log('Después de transformar espacios:', formattedText)
-      
+      let formattedText = formatForLinkedIn(json)
       formattedText = formattedText.trim()
-      console.log('Texto final formateado:', formattedText)
+      
+      console.log('Texto formateado para LinkedIn:', formattedText)
 
       await navigator.clipboard.writeText(formattedText)
       console.log('Texto copiado al portapapeles exitosamente')
@@ -193,3 +198,4 @@ const Editor = () => {
 }
 
 export default Editor 
+
