@@ -59,7 +59,7 @@ Este proyecto sigue un flujo de **Trunk-Based Development** con dos ramas princi
 ### **Ciclo de Desarrollo**
 1. Se crean ramas de características (**`feature/nueva-funcion`**) desde `development`.
 2. Se desarrollan nuevas funcionalidades y se integran en `development`.
-3. **GitHub Actions ejecuta pruebas automatizadas** antes de hacer merge a `trunk`.
+3. **GitHub Actions ejecuta pruebas automatizadas** antes de hacer merge a `trunk`. (Los merge siempre con commits para verlos en gitgraph)
 4. Si las pruebas pasan, se fusiona a `trunk` y **Vercel despliega automáticamente la nueva versión**.
 
 ---
@@ -69,10 +69,9 @@ Este proyecto sigue un flujo de **Trunk-Based Development** con dos ramas princi
 | Fase | Feature Principal | Estado |
 |------|------------------|--------|
 | **1** | Editor básico con negrita/cursiva y copiar | ✅ En desarrollo |
-| **2** | Conversión automática y vista previa | 🔜 Próxima fase |
-| **3** | Listas, emojis y separación visual | 🚧 En planificación |
-| **4** | Guardado de posts y compartición | 🚧 En planificación |
-| **5** | IA para mejoras y sugerencias de texto | 🚧 En planificación |
+| **2** | Listas, emojis  | 🚧 En planificación |
+| **3** | Otras fuentes de texto | 🚧 En planificación |
+| **4** | IA para mejoras y sugerencias de texto | 🚧 En planificación |
 
 ---
 
