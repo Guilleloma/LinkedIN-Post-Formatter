@@ -92,4 +92,69 @@ describe('Editor Component', () => {
     const errorMessage = await screen.findByText('Error al copiar')
     expect(errorMessage).toBeDefined()
   })
+
+  describe('Text Formatting', () => {
+    it('maintains line breaks between paragraphs', async () => {
+      // Simular contenido con múltiples párrafos
+      await act(async () => {
+        const editorDiv = document.querySelector('.ProseMirror')
+        editorDiv.innerHTML = '<p>Primer párrafo</p><p>Segundo párrafo</p><p>Tercer párrafo</p>'
+        fireEvent.input(editorDiv, {
+          target: editorDiv
+        })
+      })
+
+      const copyButton = screen.getByText('Copiar al portapapeles')
+      await act(async () => {
+        await fireEvent.click(copyButton)
+      })
+
+      // Verificar que el texto copiado mantiene los saltos de línea
+      expect(mockClipboard.writeText).toHaveBeenCalledWith(
+        expect.stringMatching(/Primer párrafo\n\nSegundo párrafo\n\nTercer párrafo/)
+      )
+    })
+
+    it('maintains line breaks in bullet lists', async () => {
+      // Simular contenido con lista de bullets
+      await act(async () => {
+        const editorDiv = document.querySelector('.ProseMirror')
+        editorDiv.innerHTML = '<ul><li>Primer item</li><li>Segundo item</li></ul><p>Párrafo normal</p>'
+        fireEvent.input(editorDiv, {
+          target: editorDiv
+        })
+      })
+
+      const copyButton = screen.getByText('Copiar al portapapeles')
+      await act(async () => {
+        await fireEvent.click(copyButton)
+      })
+
+      // Verificar que el texto copiado mantiene el formato correcto
+      expect(mockClipboard.writeText).toHaveBeenCalledWith(
+        expect.stringMatching(/• Primer item\n• Segundo item\n\nPárrafo normal/)
+      )
+    })
+
+    it('handles mixed content with proper spacing', async () => {
+      // Simular contenido mixto (párrafos, lista y formato)
+      await act(async () => {
+        const editorDiv = document.querySelector('.ProseMirror')
+        editorDiv.innerHTML = '<p>Título principal</p><ul><li>Item 1</li><li>Item 2</li></ul><p>Conclusión</p>'
+        fireEvent.input(editorDiv, {
+          target: editorDiv
+        })
+      })
+
+      const copyButton = screen.getByText('Copiar al portapapeles')
+      await act(async () => {
+        await fireEvent.click(copyButton)
+      })
+
+      // Verificar el formato completo
+      expect(mockClipboard.writeText).toHaveBeenCalledWith(
+        expect.stringMatching(/Título principal\n\n• Item 1\n• Item 2\n\nConclusión/)
+      )
+    })
+  })
 }) 

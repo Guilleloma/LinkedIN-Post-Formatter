@@ -161,6 +161,11 @@ const Editor = () => {
           keepMarks: true,
           keepAttributes: true,
         },
+        paragraph: {
+          HTMLAttributes: {
+            class: 'mb-4',
+          },
+        },
       }),
     ],
     content: '<p>¡Escribe tu post de LinkedIn aquí!</p>',
@@ -170,13 +175,11 @@ const Editor = () => {
       },
     },
     onUpdate: ({ editor }) => {
-      // Guardar en localStorage
       if (editor) {
         localStorage.setItem('editorContent', JSON.stringify(editor.getJSON()))
       }
     },
     onCreate: ({ editor }) => {
-      // Cargar desde localStorage
       const savedContent = localStorage.getItem('editorContent')
       if (savedContent) {
         editor.commands.setContent(JSON.parse(savedContent))
@@ -191,17 +194,15 @@ const Editor = () => {
   const formatForLinkedIn = (node) => {
     if (!node || !node.content) return ''
     
-    return node.content.map(item => {
+    const formattedContent = node.content.map(item => {
       let text = ''
       
-      // Procesar el contenido del nodo
       if (item.content) {
         text = formatForLinkedIn(item)
       } else if (item.text) {
         text = item.text
       }
       
-      // Aplicar marcas usando caracteres Unicode específicos
       if (item.marks) {
         item.marks.forEach(mark => {
           if (mark.type === 'bold') {
@@ -213,7 +214,6 @@ const Editor = () => {
         })
       }
       
-      // Manejar tipos específicos de nodos
       if (item.type === 'bulletList') {
         return text.split('\n')
           .filter(Boolean)
@@ -224,13 +224,14 @@ const Editor = () => {
         return text.trim()
       }
       if (item.type === 'paragraph') {
-        return text + (item.type === 'listItem' ? '' : '\n\n')
+        return text
       }
       
       return text
-    }).join('')
-      .replace(/\n{3,}/g, '\n\n') // Reemplazar múltiples saltos de línea por máximo dos
-      .trim()
+    }).join('\n\n').trim()
+
+    // Asegurar que hay doble salto de línea entre párrafos
+    return formattedContent.replace(/\n\s*\n/g, '\n\n')
   }
 
   const handleCopy = async () => {
