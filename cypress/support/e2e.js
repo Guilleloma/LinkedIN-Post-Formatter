@@ -22,7 +22,16 @@ import './commands'
 // Import Testing Library commands
 import '@testing-library/cypress/add-commands'
 
-Cypress.on('uncaught:exception', (err, runnable) => {
-  // returning false here prevents Cypress from failing the test
-  return false
+// Ignore uncaught exceptions from emoji-picker-react
+Cypress.on('uncaught:exception', (err) => {
+  if (err.message.includes('ResizeObserver') || err.message.includes('IntersectionObserver')) {
+    return false
+  }
+})
+
+// Add custom command for emoji selection
+Cypress.Commands.add('selectEmoji', (emojiName) => {
+  cy.get('button[title="Emojis"]').click()
+  cy.get('input[type="search"]').type(emojiName)
+  cy.get('[data-unified="1f60a"]').first().click() // Smile emoji
 })

@@ -1,6 +1,8 @@
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import EmojiPicker from 'emoji-picker-react'
+import React from 'react'
 
 // Mapeo de caracteres para formateo
 const BOLD_CHARS = {
@@ -22,25 +24,63 @@ const ITALIC_CHARS = {
 }
 
 const MenuBar = ({ editor }) => {
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false)
+  const emojiContainerRef = React.useRef(null)
+
+  useEffect(() => {
+    console.log('🟢 MenuBar: Component mounted')
+    console.log('📍 MenuBar initial DOM state:', document.querySelector('.border-b.border-gray-200'))
+    
+    const handleClickOutside = (event) => {
+      if (emojiContainerRef.current && !emojiContainerRef.current.contains(event.target)) {
+        console.log('👆 MenuBar: Click outside detected')
+        console.log('📍 MenuBar click target:', event.target)
+        console.log('📍 MenuBar container ref:', emojiContainerRef.current)
+        setShowEmojiPicker(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      console.log('🔴 MenuBar: Component unmounting, removing event listener')
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
+
+  useEffect(() => {
+    console.log('🔄 MenuBar: showEmojiPicker state changed:', showEmojiPicker)
+    console.log('📍 MenuBar emoji container:', document.querySelector('[data-testid="emoji-container"]'))
+    if (showEmojiPicker) {
+      console.log('📍 MenuBar emoji picker:', document.querySelector('[data-testid="emoji-picker"]'))
+    }
+  }, [showEmojiPicker])
+
   if (!editor) {
-    console.log('MenuBar: Editor no inicializado')
+    console.log('⚠️ MenuBar: Editor not initialized')
     return null
   }
 
   const handleCommand = (command, name) => {
-    console.log(`MenuBar: Ejecutando comando ${name}`)
+    console.log(`🎯 MenuBar: Executing command ${name}`)
     if (name === 'bulletList') {
-      // Simplemente toggle la lista en la posición actual
       editor.chain().focus().toggleBulletList().run()
-      console.log(`MenuBar: Estado de bulletList:`, editor.isActive('bulletList'))
+      console.log(`📝 MenuBar: bulletList state:`, editor.isActive('bulletList'))
     } else {
       command()
-      console.log(`MenuBar: Estado de ${name}:`, editor.isActive(name))
+      console.log(`📝 MenuBar: ${name} state:`, editor.isActive(name))
     }
   }
 
+  const onEmojiClick = (emojiData) => {
+    console.log('😊 MenuBar: Emoji clicked:', emojiData)
+    console.log('📍 MenuBar editor state before insert:', editor.getHTML())
+    editor.chain().focus().insertContent(emojiData.emoji).run()
+    console.log('📍 MenuBar editor state after insert:', editor.getHTML())
+    setShowEmojiPicker(false)
+  }
+
   return (
-    <div className="border-b border-gray-200 p-4 flex gap-2">
+    <div className="border-b border-gray-200 p-4 flex gap-2 relative">
       <button
         onClick={() => handleCommand(
           () => editor.chain().focus().toggleBold().run(),
@@ -71,6 +111,39 @@ const MenuBar = ({ editor }) => {
       >
         • Lista
       </button>
+      <button
+        onClick={() => {
+          setShowEmojiPicker(!showEmojiPicker)
+        }}
+        className={`px-3 py-1 border rounded hover:bg-gray-100`}
+        title="Emojis"
+        data-testid="emoji-toggle"
+      >
+        😊
+      </button>
+      {showEmojiPicker && (
+        <div 
+          ref={emojiContainerRef} 
+          className="absolute top-full left-0 z-50 mt-2" 
+          data-testid="emoji-container"
+        >
+          <div className="bg-white border rounded shadow-lg" data-testid="emoji-picker">
+            <EmojiPicker
+              searchDisabled={false}
+              width={300}
+              height={450}
+              previewConfig={{ showPreview: false }}
+              lazyLoadEmojis={true}
+              skinTonesDisabled={false}
+              searchPlaceholder="Buscar emojis..."
+              onEmojiClick={(emojiData) => {
+                editor.chain().focus().insertContent(emojiData.emoji).run()
+                setShowEmojiPicker(false)
+              }}
+            />
+          </div>
+        </div>
+      )}
     </div>
   )
 }
