@@ -4,8 +4,10 @@ import './App.css'
 
 function App() {
   return (
-    <div className="App">
-      <Editor />
+    <div className="App flex flex-col min-h-screen">
+      <div className="flex-grow">
+        <Editor />
+      </div>
       <BuyMeCoffee />
     </div>
   )
