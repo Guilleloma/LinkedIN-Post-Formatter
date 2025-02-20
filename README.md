@@ -127,7 +127,7 @@ vercel deploy
 ---
 
 ## 📢 Contacto
-Si tienes dudas, sugerencias o feedback, abre un **issue** en GitHub o contáctame en [LinkedIn](https://linkedin.com/in/tuusuario).
+Si tienes dudas, sugerencias o feedback, abre un **issue** en GitHub o contáctame en [LinkedIn](https://www.linkedin.com/in/guillermolopezmarin/).
 
 ---
 
