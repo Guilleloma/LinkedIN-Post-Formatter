@@ -30,23 +30,13 @@ const MenuBar = ({ editor }) => {
   const handleCommand = (command, name) => {
     console.log(`MenuBar: Ejecutando comando ${name}`)
     if (name === 'bulletList') {
-      // Si estamos en una lista, salimos de ella
-      if (editor.isActive('bulletList')) {
-        console.log('Desactivando lista en la posición actual')
-        editor.chain().focus().toggleBulletList().run()
-      } else {
-        // Si no estamos en una lista, creamos una nueva en la posición actual
-        console.log('Creando nueva lista en la posición actual')
-        editor
-          .chain()
-          .focus()
-          .insertContent({ type: 'bulletList', content: [{ type: 'listItem', content: [{ type: 'paragraph' }] }] })
-          .run()
-      }
+      // Simplemente toggle la lista en la posición actual
+      editor.chain().focus().toggleBulletList().run()
+      console.log(`MenuBar: Estado de bulletList:`, editor.isActive('bulletList'))
     } else {
       command()
+      console.log(`MenuBar: Estado de ${name}:`, editor.isActive(name))
     }
-    console.log(`MenuBar: Estado de ${name}:`, editor.isActive(name))
   }
 
   return (
@@ -106,6 +96,19 @@ const Editor = () => {
         class: 'p-4 min-h-[200px] focus:outline-none text-gray-800',
       },
     },
+    onUpdate: ({ editor }) => {
+      // Guardar en localStorage
+      if (editor) {
+        localStorage.setItem('editorContent', JSON.stringify(editor.getJSON()))
+      }
+    },
+    onCreate: ({ editor }) => {
+      // Cargar desde localStorage
+      const savedContent = localStorage.getItem('editorContent')
+      if (savedContent) {
+        editor.commands.setContent(JSON.parse(savedContent))
+      }
+    }
   })
 
   const formatText = (text, charMap) => {
@@ -139,7 +142,10 @@ const Editor = () => {
       
       // Manejar tipos específicos de nodos
       if (item.type === 'bulletList') {
-        return text.split('\n').filter(Boolean).map(line => `• ${line.trim()}`).join('\n')
+        return text.split('\n')
+          .filter(Boolean)
+          .map(line => `• ${line.trim()}`)
+          .join('\n')
       }
       if (item.type === 'listItem') {
         return text.trim()
@@ -149,7 +155,9 @@ const Editor = () => {
       }
       
       return text
-    }).join('').replace(/\n\n+/g, '\n\n').trim()
+    }).join('')
+      .replace(/\n{3,}/g, '\n\n') // Reemplazar múltiples saltos de línea por máximo dos
+      .trim()
   }
 
   const handleCopy = async () => {

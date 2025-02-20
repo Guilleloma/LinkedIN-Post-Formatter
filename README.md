@@ -60,6 +60,9 @@ Este proyecto sigue un flujo de **Trunk-Based Development** con dos ramas princi
 1. Se crean ramas de características (**`feature/nueva-funcion`**) desde `development`.
 2. Se desarrollan nuevas funcionalidades y se integran en `development`.
 3. **GitHub Actions ejecuta pruebas automatizadas** antes de hacer merge a `trunk`. (Los merge siempre con commits para verlos en gitgraph)
+    - Pruebas Unitarias (Jest)
+    - Pruebas de Integración (Cypress o Playwright)
+    - Pruebas End-to-End en el flujo completo del usuario
 4. Si las pruebas pasan, se fusiona a `trunk` y **Vercel despliega automáticamente la nueva versión**.
 
 ---
