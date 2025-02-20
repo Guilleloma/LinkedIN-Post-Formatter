@@ -6,7 +6,8 @@
       "use": "@vercel/static-build",
       "config": {
         "buildCommand": "npm run build",
-        "outputDirectory": "dist"
+        "outputDirectory": "dist",
+        "zeroConfig": true
       }
     }
   ],
@@ -22,5 +23,8 @@
   "github": {
     "enabled": true,
     "silent": true
+  },
+  "buildCache": {
+    "disabled": true
   }
 } 
