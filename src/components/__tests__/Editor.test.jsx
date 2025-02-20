@@ -1,6 +1,21 @@
+import React from 'react'
 import { render, screen, fireEvent, act } from '@testing-library/react'
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import Editor from '../Editor'
+
+// Mock clipboard API
+const mockClipboard = {
+  writeText: vi.fn(() => Promise.resolve()),
+  readText: vi.fn(() => Promise.resolve(''))
+}
+
+beforeEach(() => {
+  vi.clearAllMocks()
+  Object.defineProperty(navigator, 'clipboard', {
+    value: mockClipboard,
+    writable: true
+  })
+})
 
 describe('Editor Component', () => {
   beforeEach(() => {
@@ -22,14 +37,6 @@ describe('Editor Component', () => {
   })
 
   it('shows success message after copying', async () => {
-    const mockClipboard = {
-      writeText: vi.fn().mockImplementation(() => Promise.resolve()),
-    }
-    Object.defineProperty(navigator, 'clipboard', {
-      value: mockClipboard,
-      writable: true,
-    })
-
     const copyButton = screen.getByText('Copiar al portapapeles')
     
     await act(async () => {
@@ -67,7 +74,6 @@ describe('Editor Component', () => {
       await fireEvent.click(listButton)
     })
     
-    // Verificar que el botón existe y tiene la clase correcta
     expect(listButton.closest('button')).toHaveClass('bg-gray-200')
   })
 

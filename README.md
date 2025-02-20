@@ -17,7 +17,7 @@
 
 ### **Frontend**
 - ⚡ **React + Vite** → Rápido y moderno
-- ✍️ **Tiptap o Quill.js** → Editor de texto enriquecido
+- ✍️ **Tiptap** → Editor de texto enriquecido
 - 🎨 **TailwindCSS** → Diseño limpio y responsivo
 
 ### **Despliegue y Hosting**
@@ -58,12 +58,13 @@ Este proyecto sigue un flujo de **Trunk-Based Development** con dos ramas princi
 
 ### **Ciclo de Desarrollo**
 1. Se crean ramas de características (**`feature/nueva-funcion`**) desde `development`.
-2. Se desarrollan nuevas funcionalidades y se integran en `development`.
+2. Se desarrollan nuevas funcionalidades y se integran en `development`. (Los merge siempre con commits para verlos en gitgraph)
+    - Se añaden logs en el desarrollo de nuevas funcionalidades para facilitar la depuración.
 3. **GitHub Actions ejecuta pruebas automatizadas** antes de hacer merge a `trunk`. (Los merge siempre con commits para verlos en gitgraph)
-    - Pruebas Unitarias (Jest)
-    - Pruebas de Integración (Cypress o Playwright)
+    - Pruebas Unitarias (Vitest)
+    - Pruebas de Integración (Cypress)
     - Pruebas End-to-End en el flujo completo del usuario
-4. Si las pruebas pasan, se fusiona a `trunk` y **Vercel despliega automáticamente la nueva versión**.
+4. Si las pruebas pasan, se fusiona a `trunk` y **Vercel despliega automáticamente la nueva versión**.(Los merge siempre con commits para verlos en gitgraph)
 
 ---
 
@@ -71,8 +72,8 @@ Este proyecto sigue un flujo de **Trunk-Based Development** con dos ramas princi
 
 | Fase | Feature Principal | Estado |
 |------|------------------|--------|
-| **1** | Editor básico con negrita/cursiva y copiar | ✅ En desarrollo |
-| **2** | Listas, emojis  | 🚧 En planificación |
+| **1** | Editor básico con negrita/cursiva y copiar | ✅ Trunk |
+| **2** | emojis  |  En desarrollo |
 | **3** | Otras fuentes de texto | 🚧 En planificación |
 | **4** | IA para mejoras y sugerencias de texto | 🚧 En planificación |
 
