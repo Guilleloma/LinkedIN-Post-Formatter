@@ -1,8 +1,3 @@
-Aquí tienes el **README.md** optimizado para GitHub con toda la información clave del proyecto:
-
----
-
-```md
 # 📝 LinkedIn Post Formatter
 
 **LinkedIn Post Formatter** es una WebApp que permite escribir, formatear y copiar textos con negritas, cursivas y otros estilos compatibles con LinkedIn. LinkedIn no permite HTML ni Markdown, por lo que esta herramienta convierte el texto a Unicode, asegurando que los posts sean más atractivos y fáciles de leer.
