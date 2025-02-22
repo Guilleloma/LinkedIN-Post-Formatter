@@ -1,5 +1,5 @@
 import Editor from './components/Editor'
-import BuyMeCoffee from './components/BuyMeCoffee'
+import ActionButtons from './components/ActionButtons'
 import './App.css'
 
 function App() {
@@ -8,7 +8,7 @@ function App() {
       <div className="flex-grow">
         <Editor />
       </div>
-      <BuyMeCoffee />
+      <ActionButtons />
     </div>
   )
 }
