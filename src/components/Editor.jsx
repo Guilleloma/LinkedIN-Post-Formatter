@@ -86,7 +86,7 @@ const MenuBar = ({ editor }) => {
           () => editor.chain().focus().toggleBold().run(),
           'bold'
         )}
-        className={`px-3 py-1 border rounded ${editor.isActive('bold') ? 'bg-gray-200' : 'hover:bg-gray-100'}`}
+        className={`px-3 py-1 border rounded text-white ${editor.isActive('bold') ? 'bg-blue-600' : 'bg-gray-800 hover:bg-gray-700'}`}
         title="Negrita"
       >
         <strong>B</strong>
@@ -96,7 +96,7 @@ const MenuBar = ({ editor }) => {
           () => editor.chain().focus().toggleItalic().run(),
           'italic'
         )}
-        className={`px-3 py-1 border rounded ${editor.isActive('italic') ? 'bg-gray-200' : 'hover:bg-gray-100'}`}
+        className={`px-3 py-1 border rounded text-white ${editor.isActive('italic') ? 'bg-blue-600' : 'bg-gray-800 hover:bg-gray-700'}`}
         title="Cursiva"
       >
         <em>I</em>
@@ -106,7 +106,7 @@ const MenuBar = ({ editor }) => {
           () => editor.chain().focus().toggleBulletList().run(),
           'bulletList'
         )}
-        className={`px-3 py-1 border rounded ${editor.isActive('bulletList') ? 'bg-gray-200' : 'hover:bg-gray-100'}`}
+        className={`px-3 py-1 border rounded text-white ${editor.isActive('bulletList') ? 'bg-blue-600' : 'bg-gray-800 hover:bg-gray-700'}`}
         title="Lista"
       >
         • Lista
@@ -115,7 +115,7 @@ const MenuBar = ({ editor }) => {
         onClick={() => {
           setShowEmojiPicker(!showEmojiPicker)
         }}
-        className={`px-3 py-1 border rounded hover:bg-gray-100`}
+        className={`px-3 py-1 border rounded text-white bg-gray-800 hover:bg-gray-700`}
         title="Emojis"
         data-testid="emoji-toggle"
       >
@@ -168,22 +168,17 @@ const Editor = () => {
         },
       }),
     ],
-    content: '<p>¡Escribe tu post de LinkedIn aquí!</p>',
+    content: '<p>Escriba aquí su frase y aplique el formato deseado</p>',
     editorProps: {
       attributes: {
         class: 'p-4 min-h-[200px] focus:outline-none text-gray-800',
       },
     },
     onUpdate: ({ editor }) => {
-      if (editor) {
-        localStorage.setItem('editorContent', JSON.stringify(editor.getJSON()))
-      }
+      // No necesitamos guardar el contenido
     },
     onCreate: ({ editor }) => {
-      const savedContent = localStorage.getItem('editorContent')
-      if (savedContent) {
-        editor.commands.setContent(JSON.parse(savedContent))
-      }
+      // No necesitamos cargar contenido guardado
     }
   })
 
@@ -270,6 +265,33 @@ const Editor = () => {
   return (
     <div className="min-h-screen bg-gray-50 p-4">
       <div className="max-w-2xl mx-auto">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-blue-600 mb-4">¡No más posts aburridos! ✨</h1>
+          <p className="text-xl text-gray-600 mb-8">
+            Transforma tus publicaciones de LinkedIn con formatos únicos que destacarán entre la multitud
+          </p>
+          <div className="bg-white border rounded-lg p-6 mb-8">
+            <h2 className="text-lg font-semibold mb-4">Ejemplo de transformación:</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="p-4 bg-gray-50 rounded">
+                <h3 className="text-sm font-medium text-gray-500 mb-2">Texto original:</h3>
+                <p>¡Grandes noticias! 🎉</p>
+                <p>3 razones por las que estoy emocionado:</p>
+                <p>• Nuevo proyecto iniciado</p>
+                <p>• Equipo increíble</p>
+                <p>• Tecnología innovadora</p>
+              </div>
+              <div className="p-4 bg-blue-50 rounded">
+                <h3 className="text-sm font-medium text-gray-500 mb-2">Texto formateado:</h3>
+                <p>¡𝗚𝗿𝗮𝗻𝗱𝗲𝘀 𝗻𝗼𝘁𝗶𝗰𝗶𝗮𝘀! 🎉</p>
+                <p>3 𝘳𝘢𝘻𝘰𝘯𝘦𝘴 por las que estoy emocionado:</p>
+                <p>• 𝗡𝘂𝗲𝘃𝗼 𝗽𝗿𝗼𝘆𝗲𝗰𝘁𝗼 iniciado</p>
+                <p>• Equipo 𝗶𝗻𝗰𝗿𝗲𝗶𝗯𝗹𝗲</p>
+                <p>• Tecnología 𝘪𝘯𝘯𝘰𝘷𝘢𝘥𝘰𝘳𝘢</p>
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="bg-white border rounded-lg shadow">
           <MenuBar editor={editor} />
           <EditorContent editor={editor} className="prose max-w-none" />
