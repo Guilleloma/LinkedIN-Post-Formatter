@@ -1,5 +1,6 @@
 import Editor from './components/Editor'
 import ActionButtons from './components/ActionButtons'
+import { Analytics } from '@vercel/analytics/react'
 import './App.css'
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
         <Editor />
       </div>
       <ActionButtons />
+      <Analytics />
     </div>
   )
 }
