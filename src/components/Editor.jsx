@@ -87,7 +87,7 @@ const MenuBar = ({ editor }) => {
           'bold'
         )}
         className={`px-3 py-1 border rounded text-white ${editor.isActive('bold') ? 'bg-blue-600' : 'bg-gray-800 hover:bg-gray-700'}`}
-        title="Negrita"
+        title="Bold"
       >
         <strong>B</strong>
       </button>
@@ -97,7 +97,7 @@ const MenuBar = ({ editor }) => {
           'italic'
         )}
         className={`px-3 py-1 border rounded text-white ${editor.isActive('italic') ? 'bg-blue-600' : 'bg-gray-800 hover:bg-gray-700'}`}
-        title="Cursiva"
+        title="Italic"
       >
         <em>I</em>
       </button>
@@ -107,9 +107,9 @@ const MenuBar = ({ editor }) => {
           'bulletList'
         )}
         className={`px-3 py-1 border rounded text-white ${editor.isActive('bulletList') ? 'bg-blue-600' : 'bg-gray-800 hover:bg-gray-700'}`}
-        title="Lista"
+        title="List"
       >
-        • Lista
+        • List
       </button>
       <button
         onClick={() => {
@@ -135,7 +135,7 @@ const MenuBar = ({ editor }) => {
               previewConfig={{ showPreview: false }}
               lazyLoadEmojis={true}
               skinTonesDisabled={false}
-              searchPlaceholder="Buscar emojis..."
+              searchPlaceholder="Search emojis..."
               onEmojiClick={(emojiData) => {
                 editor.chain().focus().insertContent(emojiData.emoji).run()
                 setShowEmojiPicker(false)
@@ -168,7 +168,7 @@ const Editor = () => {
         },
       }),
     ],
-    content: '<p>Escriba aquí su frase y aplique el formato deseado</p>',
+    content: '<p>Write here your text and apply the desired format</p>',
     editorProps: {
       attributes: {
         class: 'p-4 min-h-[200px] focus:outline-none text-gray-800',
@@ -230,34 +230,34 @@ const Editor = () => {
   }
 
   const handleCopy = async () => {
-    console.log('Iniciando proceso de copia')
+    console.log('Starting copy process')
     
     if (!editor) {
-      console.error('Editor no disponible para copiar')
+      console.error('Editor not available for copying')
       return
     }
 
     try {
       const json = editor.getJSON()
-      console.log('Contenido JSON:', json)
+      console.log('JSON content:', json)
       
       let formattedText = formatForLinkedIn(json)
-      console.log('Texto formateado para LinkedIn:', formattedText)
+      console.log('Formatted text for LinkedIn:', formattedText)
 
       await navigator.clipboard.writeText(formattedText)
-      console.log('Texto copiado al portapapeles exitosamente')
+      console.log('Text successfully copied to clipboard')
       
-      setCopyStatus('¡Copiado!')
+      setCopyStatus('Copied!')
       setTimeout(() => {
         setCopyStatus('')
-        console.log('Estado de copia reiniciado')
+        console.log('Copy status reset')
       }, 2000)
     } catch (err) {
-      console.error('Error al copiar:', err)
-      setCopyStatus('Error al copiar')
+      console.error('Error copying:', err)
+      setCopyStatus('Error copying')
       setTimeout(() => {
         setCopyStatus('')
-        console.log('Estado de error reiniciado')
+        console.log('Error status reset')
       }, 2000)
     }
   }
@@ -266,28 +266,28 @@ const Editor = () => {
     <div className="min-h-screen bg-gray-50 p-4">
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-blue-600 mb-4">¡No más posts aburridos! ✨</h1>
+          <h1 className="text-4xl font-bold text-blue-600 mb-4">No more boring posts! ✨</h1>
           <p className="text-xl text-gray-600 mb-8">
-            Transforma tus publicaciones de LinkedIn con formatos únicos que destacarán entre la multitud
+            Transform your LinkedIn posts with unique formats that will stand out from the crowd
           </p>
           <div className="bg-white border rounded-lg p-6 mb-8">
-            <h2 className="text-lg font-semibold mb-4">Ejemplo de transformación:</h2>
+            <h2 className="text-lg font-semibold mb-4">Transformation example:</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="p-4 bg-gray-50 rounded">
-                <h3 className="text-sm font-medium text-gray-500 mb-2">Texto original:</h3>
-                <p>¡Grandes noticias! 🎉</p>
-                <p>3 razones por las que estoy emocionado:</p>
-                <p>• Nuevo proyecto iniciado</p>
-                <p>• Equipo increíble</p>
-                <p>• Tecnología innovadora</p>
+                <h3 className="text-sm font-medium text-gray-500 mb-2">Original text:</h3>
+                <p>Great news! 🎉</p>
+                <p>3 reasons why I'm excited:</p>
+                <p>• New project started</p>
+                <p>• Amazing team</p>
+                <p>• Innovative technology</p>
               </div>
               <div className="p-4 bg-blue-50 rounded">
-                <h3 className="text-sm font-medium text-gray-500 mb-2">Texto formateado:</h3>
-                <p>¡𝗚𝗿𝗮𝗻𝗱𝗲𝘀 𝗻𝗼𝘁𝗶𝗰𝗶𝗮𝘀! 🎉</p>
-                <p>3 𝘳𝘢𝘻𝘰𝘯𝘦𝘴 por las que estoy emocionado:</p>
-                <p>• 𝗡𝘂𝗲𝘃𝗼 𝗽𝗿𝗼𝘆𝗲𝗰𝘁𝗼 iniciado</p>
-                <p>• Equipo 𝗶𝗻𝗰𝗿𝗲𝗶𝗯𝗹𝗲</p>
-                <p>• Tecnología 𝘪𝘯𝘯𝘰𝘷𝘢𝘥𝘰𝘳𝘢</p>
+                <h3 className="text-sm font-medium text-gray-500 mb-2">Formatted text:</h3>
+                <p>𝗚𝗿𝗲𝗮𝘁 𝗻𝗲𝘄𝘀! 🎉</p>
+                <p>3 𝘳𝘦𝘢𝘴𝘰𝘯𝘴 why I'm excited:</p>
+                <p>• 𝗡𝗲𝘄 𝗽𝗿𝗼𝗷𝗲𝗰𝘁 started</p>
+                <p>• Amazing 𝘵𝘦𝘢𝘮</p>
+                <p>• Innovative 𝘵𝘦𝘤𝘩𝘯𝘰𝘭𝘰𝘨𝘺</p>
               </div>
             </div>
           </div>
@@ -300,10 +300,10 @@ const Editor = () => {
               onClick={handleCopy}
               className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
             >
-              Copiar al portapapeles
+              Copy to clipboard
             </button>
             {copyStatus && (
-              <span className="text-green-500">{copyStatus}</span>
+              <span className="text-green-500">{copyStatus === '¡Copiado!' ? 'Copied!' : 'Error copying'}</span>
             )}
           </div>
         </div>
