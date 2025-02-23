@@ -23,32 +23,32 @@ describe('Editor Component', () => {
   })
 
   it('renders the editor with initial content', () => {
-    expect(screen.getByText('¡Escribe tu post de LinkedIn aquí!')).toBeDefined()
+    expect(screen.getByText('Write here your text and apply the desired format')).toBeDefined()
   })
 
   it('renders formatting buttons', () => {
-    expect(screen.getByTitle('Negrita')).toBeDefined()
-    expect(screen.getByTitle('Cursiva')).toBeDefined()
-    expect(screen.getByTitle('Lista')).toBeDefined()
+    expect(screen.getByTitle('Bold')).toBeDefined()
+    expect(screen.getByTitle('Italic')).toBeDefined()
+    expect(screen.getByTitle('List')).toBeDefined()
   })
 
   it('renders copy button', () => {
-    expect(screen.getByText('Copiar al portapapeles')).toBeDefined()
+    expect(screen.getByText('Copy to clipboard')).toBeDefined()
   })
 
   it('shows success message after copying', async () => {
-    const copyButton = screen.getByText('Copiar al portapapeles')
+    const copyButton = screen.getByText('Copy to clipboard')
     
     await act(async () => {
       await fireEvent.click(copyButton)
     })
 
-    const successMessage = await screen.findByText('¡Copiado!')
+    const successMessage = await screen.findByText('Copied!')
     expect(successMessage).toBeDefined()
   })
 
   it('toggles bold formatting when bold button is clicked', async () => {
-    const boldButton = screen.getByTitle('Negrita')
+    const boldButton = screen.getByTitle('Bold')
     
     await act(async () => {
       await fireEvent.click(boldButton)
@@ -58,7 +58,7 @@ describe('Editor Component', () => {
   })
 
   it('toggles italic formatting when italic button is clicked', async () => {
-    const italicButton = screen.getByTitle('Cursiva')
+    const italicButton = screen.getByTitle('Italic')
     
     await act(async () => {
       await fireEvent.click(italicButton)
@@ -68,7 +68,7 @@ describe('Editor Component', () => {
   })
 
   it('handles list button click', async () => {
-    const listButton = screen.getByTitle('Lista')
+    const listButton = screen.getByTitle('List')
     
     await act(async () => {
       await fireEvent.click(listButton)
@@ -83,77 +83,119 @@ describe('Editor Component', () => {
       writable: true,
     })
 
-    const copyButton = screen.getByText('Copiar al portapapeles')
+    const copyButton = screen.getByText('Copy to clipboard')
     
     await act(async () => {
       await fireEvent.click(copyButton)
     })
 
-    const errorMessage = await screen.findByText('Error al copiar')
+    const errorMessage = await screen.findByText('Error copying')
     expect(errorMessage).toBeDefined()
   })
 
   describe('Text Formatting', () => {
     it('maintains line breaks between paragraphs', async () => {
-      // Simular contenido con múltiples párrafos
+      // Simulate content with multiple paragraphs
       await act(async () => {
         const editorDiv = document.querySelector('.ProseMirror')
-        editorDiv.innerHTML = '<p>Primer párrafo</p><p>Segundo párrafo</p><p>Tercer párrafo</p>'
+        editorDiv.innerHTML = '<p>First paragraph</p><p>Second paragraph</p><p>Third paragraph</p>'
         fireEvent.input(editorDiv, {
           target: editorDiv
         })
       })
 
-      const copyButton = screen.getByText('Copiar al portapapeles')
+      const copyButton = screen.getByText('Copy to clipboard')
       await act(async () => {
         await fireEvent.click(copyButton)
       })
 
-      // Verificar que el texto copiado mantiene los saltos de línea
+      // Verify that copied text maintains line breaks
       expect(mockClipboard.writeText).toHaveBeenCalledWith(
-        expect.stringMatching(/Primer párrafo\n\nSegundo párrafo\n\nTercer párrafo/)
+        expect.stringMatching(/First paragraph\n\nSecond paragraph\n\nThird paragraph/)
       )
     })
 
     it('maintains line breaks in bullet lists', async () => {
-      // Simular contenido con lista de bullets
+      // Simulate content with bullet list
       await act(async () => {
         const editorDiv = document.querySelector('.ProseMirror')
-        editorDiv.innerHTML = '<ul><li>Primer item</li><li>Segundo item</li></ul><p>Párrafo normal</p>'
+        editorDiv.innerHTML = '<ul><li>First item</li><li>Second item</li></ul><p>Normal paragraph</p>'
         fireEvent.input(editorDiv, {
           target: editorDiv
         })
       })
 
-      const copyButton = screen.getByText('Copiar al portapapeles')
+      const copyButton = screen.getByText('Copy to clipboard')
       await act(async () => {
         await fireEvent.click(copyButton)
       })
 
-      // Verificar que el texto copiado mantiene el formato correcto
+      // Verify that copied text maintains correct format
       expect(mockClipboard.writeText).toHaveBeenCalledWith(
-        expect.stringMatching(/• Primer item\n• Segundo item\n\nPárrafo normal/)
+        expect.stringMatching(/• First item\n• Second item\n\nNormal paragraph/)
       )
     })
 
     it('handles mixed content with proper spacing', async () => {
-      // Simular contenido mixto (párrafos, lista y formato)
+      // Simulate mixed content (paragraphs, list and format)
       await act(async () => {
         const editorDiv = document.querySelector('.ProseMirror')
-        editorDiv.innerHTML = '<p>Título principal</p><ul><li>Item 1</li><li>Item 2</li></ul><p>Conclusión</p>'
+        editorDiv.innerHTML = '<p>Main title</p><ul><li>Item 1</li><li>Item 2</li></ul><p>Conclusion</p>'
         fireEvent.input(editorDiv, {
           target: editorDiv
         })
       })
 
-      const copyButton = screen.getByText('Copiar al portapapeles')
+      const copyButton = screen.getByText('Copy to clipboard')
       await act(async () => {
         await fireEvent.click(copyButton)
       })
 
-      // Verificar el formato completo
+      // Verify complete format
       expect(mockClipboard.writeText).toHaveBeenCalledWith(
-        expect.stringMatching(/Título principal\n\n• Item 1\n• Item 2\n\nConclusión/)
+        expect.stringMatching(/Main title\n\n• Item 1\n• Item 2\n\nConclusion/)
+      )
+    })
+
+    it('maintains formatting without unnecessary line breaks between styled words', async () => {
+      // Simular contenido con palabras en negrita y cursiva mezcladas
+      await act(async () => {
+        const editorDiv = document.querySelector('.ProseMirror')
+        editorDiv.innerHTML = '<p><strong>Bold</strong> normal <em>italic</em> text <strong>more bold</strong> and <em>more italic</em></p>'
+        fireEvent.input(editorDiv, {
+          target: editorDiv
+        })
+      })
+
+      const copyButton = screen.getByText('Copy to clipboard')
+      await act(async () => {
+        await fireEvent.click(copyButton)
+      })
+
+      // Verificar que el texto copiado mantiene el formato sin saltos de línea innecesarios
+      expect(mockClipboard.writeText).toHaveBeenCalledWith(
+        expect.stringMatching(/^𝗕𝗼𝗹𝗱 normal 𝘪𝘵𝘢𝘭𝘪𝘤 text 𝗺𝗼𝗿𝗲 𝗯𝗼𝗹𝗱 and 𝘮𝘰𝘳𝘦 𝘪𝘵𝘢𝘭𝘪𝘤$/)
+      )
+    })
+
+    it('maintains formatting in mixed content with lists', async () => {
+      // Simular contenido con formato mixto incluyendo listas
+      await act(async () => {
+        const editorDiv = document.querySelector('.ProseMirror')
+        editorDiv.innerHTML = '<p><strong>Title</strong></p><ul><li><em>First</em> item</li><li>Second <strong>item</strong></li></ul><p>Normal <em>conclusion</em></p>'
+        fireEvent.input(editorDiv, {
+          target: editorDiv
+        })
+      })
+
+      const copyButton = screen.getByText('Copy to clipboard')
+      await act(async () => {
+        await fireEvent.click(copyButton)
+      })
+
+      // Verificar que el texto copiado mantiene el formato y los saltos de línea correctos
+      expect(mockClipboard.writeText).toHaveBeenCalledWith(
+        expect.stringMatching(/^𝗧𝗶𝘁𝗹𝗲\n\n• 𝘍𝘪𝘳𝘴𝘵 item\n• Second 𝗶𝘁𝗲𝗺\n\nNormal 𝘤𝘰𝘯𝘤𝘭𝘶𝘴𝘪𝘰𝘯$/)
       )
     })
   })
