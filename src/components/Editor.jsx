@@ -86,7 +86,9 @@ const MenuBar = ({ editor }) => {
           () => editor.chain().focus().toggleBold().run(),
           'bold'
         )}
-        className={`px-3 py-1 border rounded text-white ${editor.isActive('bold') ? 'bg-blue-600' : 'bg-gray-800 hover:bg-gray-700'}`}
+        className={`px-3 py-1 border rounded text-white ${
+          editor.isActive('bold') ? 'bg-gray-200' : 'bg-gray-800 hover:bg-gray-700'
+        }`}
         title="Bold"
       >
         <strong>B</strong>
@@ -96,7 +98,9 @@ const MenuBar = ({ editor }) => {
           () => editor.chain().focus().toggleItalic().run(),
           'italic'
         )}
-        className={`px-3 py-1 border rounded text-white ${editor.isActive('italic') ? 'bg-blue-600' : 'bg-gray-800 hover:bg-gray-700'}`}
+        className={`px-3 py-1 border rounded text-white ${
+          editor.isActive('italic') ? 'bg-gray-200' : 'bg-gray-800 hover:bg-gray-700'
+        }`}
         title="Italic"
       >
         <em>I</em>
@@ -106,7 +110,9 @@ const MenuBar = ({ editor }) => {
           () => editor.chain().focus().toggleBulletList().run(),
           'bulletList'
         )}
-        className={`px-3 py-1 border rounded text-white ${editor.isActive('bulletList') ? 'bg-blue-600' : 'bg-gray-800 hover:bg-gray-700'}`}
+        className={`px-3 py-1 border rounded text-white ${
+          editor.isActive('bulletList') ? 'bg-gray-200' : 'bg-gray-800 hover:bg-gray-700'
+        }`}
         title="List"
       >
         • List
@@ -186,47 +192,49 @@ const Editor = () => {
     return text.split('').map(char => charMap[char] || char).join('')
   }
 
-  const formatForLinkedIn = (node) => {
-    if (!node || !node.content) return ''
-    
-    const formattedContent = node.content.map(item => {
-      let text = ''
-      
-      if (item.content) {
-        text = formatForLinkedIn(item)
-      } else if (item.text) {
-        text = item.text
-      }
-      
-      if (item.marks) {
-        item.marks.forEach(mark => {
-          if (mark.type === 'bold') {
-            text = formatText(text, BOLD_CHARS)
-          }
-          if (mark.type === 'italic') {
-            text = formatText(text, ITALIC_CHARS)
-          }
-        })
-      }
-      
-      if (item.type === 'bulletList') {
-        return text.split('\n')
-          .filter(Boolean)
-          .map(line => `• ${line.trim()}`)
-          .join('\n')
-      }
-      if (item.type === 'listItem') {
-        return text.trim()
-      }
-      if (item.type === 'paragraph') {
-        return text
-      }
-      
-      return text
-    }).join('\n\n').trim()
+  const formatForLinkedIn = (content) => {
+    let formattedText = '';
+    let isInList = false;
 
-    // Asegurar que hay doble salto de línea entre párrafos
-    return formattedContent.replace(/\n\s*\n/g, '\n\n')
+    content.content.forEach((node, index) => {
+      if (node.type === 'paragraph') {
+        const text = node.content
+          .map((item) => {
+            if (item.marks && item.marks.length > 0) {
+              const mark = item.marks[0];
+              return mark.type === 'bold'
+                ? item.text.split('').map(char => BOLD_CHARS[char] || char).join('')
+                : item.text.split('').map(char => ITALIC_CHARS[char] || char).join('');
+            }
+            return item.text;
+          })
+          .join('');
+
+        // Add double line break before paragraph if it's not the first node
+        formattedText += index > 0 ? '\n\n' + text : text;
+      } else if (node.type === 'bulletList') {
+        isInList = true;
+        // Add double line break before list if it's not the first node
+        if (index > 0) formattedText += '\n\n';
+        
+        node.content.forEach((listItem, i) => {
+          const text = listItem.content[0].content
+            .map((item) => {
+              if (item.marks && item.marks.length > 0) {
+                const mark = item.marks[0];
+                return mark.type === 'bold'
+                  ? item.text.split('').map(char => BOLD_CHARS[char] || char).join('')
+                  : item.text.split('').map(char => ITALIC_CHARS[char] || char).join('');
+              }
+              return item.text;
+            })
+            .join('');
+          formattedText += `• ${text}${i < node.content.length - 1 ? '\n' : ''}`;
+        });
+      }
+    });
+
+    return formattedText.trim();
   }
 
   const handleCopy = async () => {
@@ -303,7 +311,9 @@ const Editor = () => {
               Copy to clipboard
             </button>
             {copyStatus && (
-              <span className="text-green-500">{copyStatus === '¡Copiado!' ? 'Copied!' : 'Error copying'}</span>
+              <span className={`text-${copyStatus === 'Error copying' ? 'red' : 'green'}-500`}>
+                {copyStatus}
+              </span>
             )}
           </div>
         </div>
