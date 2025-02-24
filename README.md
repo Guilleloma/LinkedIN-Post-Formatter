@@ -1,126 +1,126 @@
 # 📝 LinkedIn Post Formatter
 
-**LinkedIn Post Formatter** es una WebApp que permite escribir, formatear y copiar textos con negritas, cursivas y otros estilos compatibles con LinkedIn. LinkedIn no permite HTML ni Markdown, por lo que esta herramienta convierte el texto a Unicode, asegurando que los posts sean más atractivos y fáciles de leer.
+**LinkedIn Post Formatter** is a WebApp that allows you to write, format, and copy texts with bold, italics, and other styles compatible with LinkedIn. Since LinkedIn doesn't allow HTML or Markdown, this tool converts text to Unicode, ensuring that posts are more attractive and easier to read.
 
-## 🚀 Características
+## 🚀 Features
 
-✅ **Editor de texto enriquecido** (Negritas, Cursivas, Listas, Emojis)  
-✅ **Conversión automática a Unicode** (para compatibilidad con LinkedIn)  
-✅ **Vista previa del post** antes de copiarlo  
-✅ **Botón "Copiar al Portapapeles"**  
-✅ **Historial de cambios con LocalStorage**  
-✅ **Modo Oscuro/Claro (próximamente)**  
+✅ **Rich Text Editor** (Bold, Italics, Lists, Emojis)  
+✅ **Automatic Unicode Conversion** (for LinkedIn compatibility)  
+✅ **Post Preview** before copying  
+✅ **"Copy to Clipboard" Button**  
+✅ **Change History with LocalStorage**  
+✅ **Dark/Light Mode (coming soon)**  
 
 ---
 
-## 🛠️ Tecnologías Usadas
+## 🛠️ Technologies Used
 
 ### **Frontend**
-- ⚡ **React + Vite** → Rápido y moderno
-- ✍️ **Tiptap** → Editor de texto enriquecido
-- 🎨 **TailwindCSS** → Diseño limpio y responsivo
+- ⚡ **React + Vite** → Fast and modern
+- ✍️ **Tiptap** → Rich text editor
+- 🎨 **TailwindCSS** → Clean and responsive design
 
-### **Despliegue y Hosting**
-- ☁️ **Vercel** → Para hosting y despliegue continuo
-- 🛠 **GitHub Actions** → Para integración continua (CI/CD)
+### **Deployment and Hosting**
+- ☁️ **Vercel** → For hosting and continuous deployment
+- 🛠 **GitHub Actions** → For continuous integration (CI/CD)
 
-### **Pruebas Automatizadas**
-- 🧪 **Jest + React Testing Library** → Pruebas unitarias
-- 🔄 **Cypress / Playwright** → Pruebas de integración y E2E
+### **Automated Testing**
+- 🧪 **Jest + React Testing Library** → Unit tests
+- 🔄 **Cypress / Playwright** → Integration and E2E tests
 
 ---
 
-## 📌 Estructura del Proyecto
+## 📌 Project Structure
 
 ```
 /linkedin-editor
- ├── /public               # Archivos estáticos
+ ├── /public               # Static files
  ├── /src
- │   ├── /components       # Componentes reutilizables (botones, toolbar, etc.)
+ │   ├── /components       # Reusable components (buttons, toolbar, etc.)
  │   ├── /pages
- │   │   ├── index.jsx     # Página principal con el editor
- │   │   ├── about.jsx     # (Opcional) Información de la herramienta
- │   ├── /utils            # Funciones de conversión a Unicode
- │   ├── App.js            # Configuración de la app
- │   ├── main.js           # Punto de entrada si usas Vite
- ├── package.json          # Dependencias
- ├── README.md             # Documentación del proyecto
+ │   │   ├── index.jsx     # Main page with editor
+ │   │   ├── about.jsx     # (Optional) Tool information
+ │   ├── /utils            # Unicode conversion functions
+ │   ├── App.js            # App configuration
+ │   ├── main.js           # Entry point if using Vite
+ ├── package.json          # Dependencies
+ ├── README.md             # Project documentation
 ```
 
 ---
 
-## 🔄 Flujo de Desarrollo y CI/CD
+## 🔄 Development Flow and CI/CD
 
-Este proyecto sigue un flujo de **Trunk-Based Development** con dos ramas principales:
+This project follows a **Trunk-Based Development** flow with two main branches:
 
-- **`trunk`** → Rama estable y lista para producción.
-- **`development`** → Rama para desarrollo y pruebas.
+- **`trunk`** → Stable and production-ready branch
+- **`development`** → Branch for development and testing
 
-### **Ciclo de Desarrollo**
-1. Se crean ramas de características (**`feature/nueva-funcion`**) desde `development`.
-2. Se desarrollan nuevas funcionalidades y se integran en `development`. (Los merge siempre con commits para verlos en gitgraph)
-    - Se añaden logs en el desarrollo de nuevas funcionalidades para facilitar la depuración.
-3. **GitHub Actions ejecuta pruebas automatizadas** antes de hacer merge a `trunk`. (Los merge siempre con commits para verlos en gitgraph)
-    - Pruebas Unitarias (Vitest)
-    - Pruebas de Integración (Cypress)
-    - Pruebas End-to-End en el flujo completo del usuario
-4. Si las pruebas pasan, se fusiona a `trunk` y **Vercel despliega automáticamente la nueva versión**.(Los merge siempre con commits para verlos en gitgraph)
+### **Development Cycle**
+1. Feature branches are created (**`feature/new-function`**) from `development`
+2. New features are developed and integrated into `development` (Merges always with commits to maintain visual history in gitgraph)
+    - Logs are added during new feature development to facilitate debugging
+3. **GitHub Actions runs automated tests** before merging to `trunk` (Merges always with commits to maintain visual history in gitgraph)
+    - Unit Tests (Vitest)
+    - Integration Tests (Cypress)
+    - End-to-End Tests on complete user flow
+4. If tests pass, it's merged to `trunk` and **Vercel automatically deploys the new version** (Merges always with commits to see them in gitgraph)
 
 ---
 
-## 🏗️ Roadmap del Proyecto
+## 🏗️ Project Roadmap
 
-| Fase | Feature Principal | Estado |
+| Phase | Main Feature | Status |
 |------|------------------|--------|
-| **1** | Editor básico con negrita/cursiva y copiar | ✅ Trunk |
-| **2** | emojis  |  En desarrollo |
-| **3** | Otras fuentes de texto | 🚧 En planificación |
-| **4** | IA para mejoras y sugerencias de texto | 🚧 En planificación |
+| **1** | Basic editor with bold/italic and copy | ✅ Trunk |
+| **2** | Emojis | ✅ Trunk|
+| **3** | Other text fonts | 🚧 In planning |
+| **4** | AI for text improvements and suggestions | 🚧 In planning |
 
 ---
 
-## ⚡ Instalación y Uso
+## ⚡ Installation and Usage
 
-### **Requisitos previos**
+### **Prerequisites**
 - Node.js 18+
-- npm o yarn
+- npm or yarn
 
-### **Clonar el repositorio**
+### **Clone the repository**
 ```bash
-git clone https://github.com/tuusuario/linkedin-post-formatter.git
+git clone https://github.com/guilleloma/linkedin-post-formatter.git
 cd linkedin-post-formatter
 ```
 
-### **Instalar dependencias**
+### **Install dependencies**
 ```bash
 npm install
 ```
 
-### **Iniciar el proyecto en desarrollo**
+### **Start the project in development**
 ```bash
 npm run dev
 ```
-Abrir [http://localhost:5173](http://localhost:5173) para ver la app en el navegador.
+Open [http://localhost:5173](http://localhost:5173) to view the app in your browser.
 
-### **Desplegar en Vercel**
-Si usas **Vercel**, puedes desplegar con:
+### **Deploy to Vercel**
+If using **Vercel**, you can deploy with:
 ```bash
 vercel deploy
 ```
 
 ---
 
-## 🛠 Contribuciones
+## 🛠 Contributions
 
-🚀 ¡Las contribuciones son bienvenidas! Si quieres colaborar:
-1. **Forkea el repositorio**
-2. **Crea una rama de feature** (`git checkout -b feature/nueva-funcion`)
-3. **Sube tus cambios** (`git commit -m "Añadida nueva función"`)
-4. **Haz un PR a `development`**
+🚀 Contributions are welcome! If you want to collaborate:
+1. **Fork the repository**
+2. **Create a feature branch** (`git checkout -b feature/new-function`)
+3. **Push your changes** (`git commit -m "Added new function"`)
+4. **Make a PR to `development`**
 
 ---
 
-## 🔗 Recursos y Documentación
+## 🔗 Resources and Documentation
 
 - [Tiptap Docs](https://tiptap.dev/docs)
 - [Cypress Docs](https://www.cypress.io/)
@@ -129,11 +129,11 @@ vercel deploy
 
 ---
 
-## 📢 Contacto
-Si tienes dudas, sugerencias o feedback, abre un **issue** en GitHub o contáctame en [LinkedIn](https://www.linkedin.com/in/guillermolopezmarin/).
+## 📢 Contact
+If you have questions, suggestions, or feedback, open an **issue** on GitHub or contact me on [LinkedIn](https://www.linkedin.com/in/guillermolopezmarin/).
 
 ---
 
-**🚀 Creado con pasión para mejorar la experiencia de escritura en LinkedIn.**  
+**🚀 Created with passion to improve the writing experience on LinkedIn.**  
 ```
 
