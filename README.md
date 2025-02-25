@@ -58,13 +58,21 @@ This project follows a **Trunk-Based Development** flow with two main branches:
 
 ### **Development Cycle**
 1. Feature branches are created (**`feature/new-function`**) from `development`
-2. New features are developed and integrated into `development` (Merges always with commits to maintain visual history in gitgraph)
+2. New features are developed and integrated into `development`
+    - ⚠️ **Important**: When merging, always use `--no-ff` flag to create a merge commit. This ensures the branch history is preserved in the git graph visualization.
+    - Example: `git merge --no-ff feature/new-function -m "Merge feature/new-function into development"`
     - Logs are added during new feature development to facilitate debugging
-3. **GitHub Actions runs automated tests** before merging to `trunk` (Merges always with commits to maintain visual history in gitgraph)
-    - Unit Tests (Vitest)
-    - Integration Tests (Cypress)
-    - End-to-End Tests on complete user flow
-4. If tests pass, it's merged to `trunk` and **Vercel automatically deploys the new version** (Merges always with commits to see them in gitgraph)
+3. After development is complete and tested:
+    - Create a merge commit from `development` into `trunk`
+    - ⚠️ **Important**: Use `--no-ff` flag here too to maintain visual history
+    - **GitHub Actions runs automated tests** before completing the merge
+        - Unit Tests (Vitest)
+        - Integration Tests (Cypress)
+        - End-to-End Tests on complete user flow
+4. If tests pass:
+    - Complete the merge into `trunk` with a merge commit
+    - **Vercel automatically deploys the new version**
+    - The git graph will show a clear visual history of all merges and features
 
 ---
 
