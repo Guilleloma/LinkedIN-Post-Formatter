@@ -86,8 +86,8 @@ const MenuBar = ({ editor }) => {
           () => editor.chain().focus().toggleBold().run(),
           'bold'
         )}
-        className={`px-3 py-1 border rounded text-white ${
-          editor.isActive('bold') ? 'bg-gray-200' : 'bg-gray-800 hover:bg-gray-700'
+        className={`px-3 py-1 border rounded text-gray-100 ${
+          editor.isActive('bold') ? 'bg-gray-200 text-gray-800' : 'bg-gray-800 hover:bg-gray-700'
         }`}
         title="Bold"
       >
@@ -98,8 +98,8 @@ const MenuBar = ({ editor }) => {
           () => editor.chain().focus().toggleItalic().run(),
           'italic'
         )}
-        className={`px-3 py-1 border rounded text-white ${
-          editor.isActive('italic') ? 'bg-gray-200' : 'bg-gray-800 hover:bg-gray-700'
+        className={`px-3 py-1 border rounded text-gray-100 ${
+          editor.isActive('italic') ? 'bg-gray-200 text-gray-800' : 'bg-gray-800 hover:bg-gray-700'
         }`}
         title="Italic"
       >
@@ -110,8 +110,8 @@ const MenuBar = ({ editor }) => {
           () => editor.chain().focus().toggleBulletList().run(),
           'bulletList'
         )}
-        className={`px-3 py-1 border rounded text-white ${
-          editor.isActive('bulletList') ? 'bg-gray-200' : 'bg-gray-800 hover:bg-gray-700'
+        className={`px-3 py-1 border rounded text-gray-100 ${
+          editor.isActive('bulletList') ? 'bg-gray-200 text-gray-800' : 'bg-gray-800 hover:bg-gray-700'
         }`}
         title="List"
       >
@@ -121,7 +121,7 @@ const MenuBar = ({ editor }) => {
         onClick={() => {
           setShowEmojiPicker(!showEmojiPicker)
         }}
-        className={`px-3 py-1 border rounded text-white bg-gray-800 hover:bg-gray-700`}
+        className={`px-3 py-1 border rounded text-gray-100 bg-gray-800 hover:bg-gray-700`}
         title="Emojis"
         data-testid="emoji-toggle"
       >
@@ -177,7 +177,7 @@ const Editor = () => {
     content: '<p>Write here your text and apply the desired format</p>',
     editorProps: {
       attributes: {
-        class: 'p-4 min-h-[200px] focus:outline-none text-gray-800',
+        class: 'p-4 min-h-[200px] focus:outline-none text-gray-900',
       },
     },
     onUpdate: ({ editor }) => {
@@ -283,19 +283,19 @@ const Editor = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="p-4 bg-gray-50 rounded">
                 <h3 className="text-sm font-medium text-gray-500 mb-2">Original text:</h3>
-                <p>Great news! 🎉</p>
-                <p>3 reasons why I'm excited:</p>
-                <p>• New project started</p>
-                <p>• Amazing team</p>
-                <p>• Innovative technology</p>
+                <p className="text-gray-900">Great news! 🎉</p>
+                <p className="text-gray-900">3 reasons why I'm excited:</p>
+                <p className="text-gray-900">• New project started</p>
+                <p className="text-gray-900">• Amazing team</p>
+                <p className="text-gray-900">• Innovative technology</p>
               </div>
               <div className="p-4 bg-blue-50 rounded">
                 <h3 className="text-sm font-medium text-gray-500 mb-2">Formatted text:</h3>
-                <p>𝗚𝗿𝗲𝗮𝘁 𝗻𝗲𝘄𝘀! 🎉</p>
-                <p>3 𝘳𝘦𝘢𝘴𝘰𝘯𝘴 why I'm excited:</p>
-                <p>• 𝗡𝗲𝘄 𝗽𝗿𝗼𝗷𝗲𝗰𝘁 started</p>
-                <p>• Amazing 𝘵𝘦𝘢𝘮</p>
-                <p>• Innovative 𝘵𝘦𝘤𝘩𝘯𝘰𝘭𝘰𝘨𝘺</p>
+                <p className="text-gray-900">𝗚𝗿𝗲𝗮𝘁 𝗻𝗲𝘄𝘀! 🎉</p>
+                <p className="text-gray-900">3 𝘳𝘦𝘢𝘴𝘰𝘯𝘴 why I'm excited:</p>
+                <p className="text-gray-900">• 𝗡𝗲𝘄 𝗽𝗿𝗼𝗷𝗲𝗰𝘁 started</p>
+                <p className="text-gray-900">• Amazing 𝘵𝘦𝘢𝘮</p>
+                <p className="text-gray-900">• Innovative 𝘵𝘦𝘤𝘩𝘯𝘰𝘭𝘰𝘨𝘺</p>
               </div>
             </div>
           </div>
@@ -311,7 +311,7 @@ const Editor = () => {
               Copy to clipboard
             </button>
             {copyStatus && (
-              <span className={`text-${copyStatus === 'Error copying' ? 'red' : 'green'}-500`}>
+              <span className={copyStatus === 'Error copying' ? 'text-red-500' : 'text-green-500'}>
                 {copyStatus}
               </span>
             )}
@@ -322,6 +322,4 @@ const Editor = () => {
   )
 }
 
-export default Editor 
-
-
+export default Editor
